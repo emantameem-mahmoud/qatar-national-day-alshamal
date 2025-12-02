@@ -8,7 +8,7 @@ export default defineConfig({
     // Inject the specific API key provided for automatic deployment
     'process.env.API_KEY': JSON.stringify("AIzaSyBBg7yANJtSEu8T7R7sWkRJsA3LHVG0HlY"),
     
-    // Fallback to prevent "process is not defined" error
+    // Ensure process.env is defined to avoid crashes in some libraries
     'process.env': {}
   },
   build: {
