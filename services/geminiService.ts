@@ -1,6 +1,13 @@
 import { GoogleGenAI } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: process.env.AIzaSyBBg7yANJtSEu8T7R7sWkRJsA3LHVG0HlY });
+// Ensure API Key exists before initializing
+const apiKey = process.env.API_KEY || '';
+
+if (!apiKey) {
+  console.warn("API_KEY is missing. Please set it in your environment variables (e.g., Vercel/Netlify Dashboard).");
+}
+
+const ai = new GoogleGenAI({ apiKey: apiKey });
 
 const BACKGROUND_SCENARIOS = [
   "The Doha Corniche skyline during the day with air shows, maroon and white smoke trails, and Qatari flags waving.",
@@ -13,6 +20,10 @@ const BACKGROUND_SCENARIOS = [
 ];
 
 export const generateQatarNationalDayImage = async (base64Image: string): Promise<string> => {
+  if (!apiKey) {
+    throw new Error("مفتاح API غير موجود. يرجى إعداد API_KEY في إعدادات الاستضافة.");
+  }
+
   try {
     // 1. Dynamic MIME Type Detection
     // Matches data:image/png;base64, or data:image/jpeg;base64, etc.
