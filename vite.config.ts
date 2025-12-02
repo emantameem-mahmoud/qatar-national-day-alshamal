@@ -5,11 +5,10 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   define: {
-    // Correctly inject the API key from the build environment (Vercel/Netlify)
-    // IMPORTANT: 'process' is not available in the browser, so we must stringify the value here.
-    'process.env.API_KEY': JSON.stringify(process.env.API_KEY),
+    // Inject the specific API key provided for automatic deployment
+    'process.env.API_KEY': JSON.stringify("AIzaSyBBg7yANJtSEu8T7R7sWkRJsA3LHVG0HlY"),
     
-    // Fallback to prevent "process is not defined" error if code accesses other process.env properties
+    // Fallback to prevent "process is not defined" error
     'process.env': {}
   },
   build: {
