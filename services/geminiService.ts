@@ -1,6 +1,6 @@
 import { GoogleGenAI } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+const ai = new GoogleGenAI({ apiKey: process.env.AIzaSyBBg7yANJtSEu8T7R7sWkRJsA3LHVG0HlY });
 
 const BACKGROUND_SCENARIOS = [
   "The Doha Corniche skyline during the day with air shows, maroon and white smoke trails, and Qatari flags waving.",
