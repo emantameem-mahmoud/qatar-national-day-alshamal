@@ -1,17 +1,22 @@
-import { defineConfig } from 'vite';
+import path from 'path';
+import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 
-// https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [react()],
-  define: {
-    // Correctly define process.env to prevent crashes and inject API KEY
-    'process.env': {
-       API_KEY: "AIzaSyBBg7yANJtSEu8T7R7sWkRJsA3LHVG0HlY"
-    }
-  },
-  build: {
-    outDir: 'dist',
-    sourcemap: false,
-  },
+export default defineConfig(({ mode }) => {
+    const env = loadEnv(mode, '.', '');
+    return {
+      server: {
+        port: 3000,
+        host: '0.0.0.0',
+      },
+      plugins: [react()],
+      define: {
+        'process.env.API_KEY': JSON.stringify(env.VITE_API_KEY)
+      },
+      resolve: {
+        alias: {
+          '@': path.resolve(__dirname, '.'),
+        }
+      }
+    };
 });
