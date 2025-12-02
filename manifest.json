@@ -1,0 +1,22 @@
+{
+  "name": "احتفالات اليوم الوطني - مدرسة الشمال",
+  "short_name": "قطر 2025",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#8A1538",
+  "theme_color": "#8A1538",
+  "description": "تطبيق تفاعلي لليوم الوطني القطري",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/323/323308.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/323/323308.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "orientation": "portrait"
+}
