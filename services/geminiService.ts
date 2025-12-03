@@ -1,13 +1,8 @@
 import { GoogleGenAI } from "@google/genai";
 
-// Ensure API Key exists before initializing
-const apiKey = process.env.API_KEY || '';
-
-if (!apiKey) {
-  console.warn("API_KEY is missing. Please set it in your environment variables (e.g., Vercel/Netlify Dashboard).");
-}
-
-const ai = new GoogleGenAI({ apiKey: apiKey });
+// Fix: Use process.env.API_KEY directly when initializing the client.
+// Assume the variable is pre-configured and valid.
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 const BACKGROUND_SCENARIOS = [
   "The Doha Corniche skyline during the day with air shows, maroon and white smoke trails, and Qatari flags waving.",
@@ -20,10 +15,6 @@ const BACKGROUND_SCENARIOS = [
 ];
 
 export const generateQatarNationalDayImage = async (base64Image: string): Promise<string> => {
-  if (!apiKey) {
-    throw new Error("مفتاح API غير موجود. يرجى إعداد API_KEY في إعدادات الاستضافة.");
-  }
-
   try {
     // 1. Dynamic MIME Type Detection
     // Matches data:image/png;base64, or data:image/jpeg;base64, etc.
