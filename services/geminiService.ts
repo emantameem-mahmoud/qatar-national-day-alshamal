@@ -1,8 +1,14 @@
 import { GoogleGenAI } from "@google/genai";
 
-// Fix: Use process.env.API_KEY directly when initializing the client.
-// Assume the variable is pre-configured and valid.
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// Access the API key injected by Vite at build time.
+// The configuration in vite.config.ts guarantees this is replaced with the string literal.
+const apiKey = process.env.API_KEY;
+
+if (!apiKey) {
+  console.error("API_KEY is missing. Please check vite.config.ts");
+}
+
+const ai = new GoogleGenAI({ apiKey: apiKey || '' });
 
 const BACKGROUND_SCENARIOS = [
   "The Doha Corniche skyline during the day with air shows, maroon and white smoke trails, and Qatari flags waving.",
@@ -16,17 +22,20 @@ const BACKGROUND_SCENARIOS = [
 
 export const generateQatarNationalDayImage = async (base64Image: string): Promise<string> => {
   try {
+    if (!apiKey) {
+      throw new Error("مفتاح API غير متوفر. يرجى التأكد من إعدادات التطبيق.");
+    }
+
     // 1. Dynamic MIME Type Detection
-    // Matches data:image/png;base64, or data:image/jpeg;base64, etc.
     const mimeMatch = base64Image.match(/^data:(image\/[a-zA-Z+]+);base64,/);
     const mimeType = mimeMatch ? mimeMatch[1] : 'image/jpeg';
     
-    // 2. Extract Base64 Data correctly
+    // 2. Extract Base64 Data
     const base64Data = base64Image.replace(/^data:image\/[a-zA-Z+]+;base64,/, '');
 
     const randomScenario = BACKGROUND_SCENARIOS[Math.floor(Math.random() * BACKGROUND_SCENARIOS.length)];
 
-    // 3. Refined Prompt for Image Editing
+    // 3. Prompt
     const prompt = `
       Edit this image to create a festive Qatar National Day 2025 celebration photo.
       
@@ -45,7 +54,7 @@ export const generateQatarNationalDayImage = async (base64Image: string): Promis
         parts: [
           {
             inlineData: {
-              mimeType: mimeType, // Use the actual detected mime type
+              mimeType: mimeType,
               data: base64Data,
             },
           },
@@ -56,23 +65,20 @@ export const generateQatarNationalDayImage = async (base64Image: string): Promis
       },
     });
 
-    // 4. Robust Response Handling
+    // 4. Response Handling
     const candidates = response.candidates;
     if (candidates && candidates.length > 0) {
         const content = candidates[0].content;
         if (content && content.parts) {
-            // Priority: Look for the image
             for (const part of content.parts) {
                 if (part.inlineData) {
                     return `data:${part.inlineData.mimeType};base64,${part.inlineData.data}`;
                 }
             }
             
-            // Fallback: Check if the model returned text (refusal or error)
             const textPart = content.parts.find(p => p.text);
             if (textPart && textPart.text) {
                 console.warn("Gemini returned text:", textPart.text);
-                // Return a user-friendly error based on the model's response
                 throw new Error(`لم يتم إنشاء الصورة. استجابة النموذج: ${textPart.text.substring(0, 100)}...`);
             }
         }

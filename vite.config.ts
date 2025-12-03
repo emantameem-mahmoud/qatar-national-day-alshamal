@@ -5,13 +5,13 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   define: {
-    // Correctly define process.env to prevent crashes and inject API KEY
-    'process.env': {
-       API_KEY: "AIzaSyBBg7yANJtSEu8T7R7sWkRJsA3LHVG0HlY"
-    }
+    // CRITICAL FIX: Properly stringify the value so Vite replaces it as a string literal.
+    // This prevents "process is not defined" errors in the browser.
+    'process.env.API_KEY': JSON.stringify("AIzaSyBBg7yANJtSEu8T7R7sWkRJsA3LHVG0HlY")
   },
   build: {
     outDir: 'dist',
     sourcemap: false,
+    target: 'esnext', // Use modern JS for better performance
   },
 });

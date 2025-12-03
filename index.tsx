@@ -13,15 +13,7 @@ interface ErrorBoundaryState {
 
 // Error Boundary to prevent "White Screen of Death"
 class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
-  public state: ErrorBoundaryState;
-  // Fix: Explicitly declare props to resolve "Property 'props' does not exist" error
-  public props: ErrorBoundaryProps;
-
-  constructor(props: ErrorBoundaryProps) {
-    super(props);
-    this.props = props;
-    this.state = { hasError: false, error: null };
-  }
+  public state: ErrorBoundaryState = { hasError: false, error: null };
 
   static getDerivedStateFromError(error: Error): ErrorBoundaryState {
     return { hasError: true, error };
@@ -44,11 +36,21 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
           color: 'white',
           fontFamily: 'Tajawal, sans-serif',
           textAlign: 'center',
-          padding: '20px'
+          padding: '20px',
+          direction: 'rtl'
         }}>
           <h1 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '10px' }}>عذراً، حدث خطأ غير متوقع</h1>
           <p style={{ marginBottom: '20px', opacity: 0.8 }}>يرجى إعادة تحميل الصفحة</p>
-          <div style={{ backgroundColor: 'rgba(0,0,0,0.2)', padding: '15px', borderRadius: '8px', fontSize: '12px', maxWidth: '80%', overflow: 'auto' }}>
+          <div style={{ 
+            backgroundColor: 'rgba(0,0,0,0.2)', 
+            padding: '15px', 
+            borderRadius: '8px', 
+            fontSize: '12px', 
+            maxWidth: '90%', 
+            overflow: 'auto',
+            textAlign: 'left',
+            direction: 'ltr'
+          }}>
              {this.state.error?.toString()}
           </div>
           <button 
