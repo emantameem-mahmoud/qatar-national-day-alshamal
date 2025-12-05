@@ -7,7 +7,7 @@ export default defineConfig({
   define: {
     // CRITICAL FIX: Properly stringify the value so Vite replaces it as a string literal.
     // This prevents "process is not defined" errors in the browser.
-    'process.env.API_KEY': JSON.stringify("AIzaSyDU4-g1tgj7skIYTmMgOg6fwUZuZxYatzc")
+    'process.env.API_KEY': JSON.stringify("AIzaSyDUrugrCpBdXKKAzv7y55dhpBfr9_4i31c")
   },
   build: {
     outDir: 'dist',
