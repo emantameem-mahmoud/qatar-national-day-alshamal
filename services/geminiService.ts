@@ -8,7 +8,7 @@ if (!apiKey) {
   console.error("API_KEY is missing. Please check vite.config.ts");
 }
 
-const ai = new GoogleGenAI({ apiKey: apiKey || 'AIzaSyDU4-g1tgj7skIYTmMgOg6fwUZuZxYatzc' });
+const ai = new GoogleGenAI({ apiKey: apiKey || 'AIzaSyDUrugrCpBdXKKAzv7y55dhpBfr9_4i31c' });
 
 const BACKGROUND_SCENARIOS = [
   "The Doha Corniche skyline during the day with air shows, maroon and white smoke trails, and Qatari flags waving.",
